@@ -1,0 +1,39 @@
+graph LR
+  subgraph "Off-Chain"
+    Frontend["React Front-End"]
+    DEXClient["OKX DEX API Client"]
+    OracleSvc["Oracle Updater"]
+    ZKProver["Solvency Prover"]
+  end
+
+  subgraph "External"
+    OKXAPI["OKX DEX API"]
+  end
+
+  subgraph "On-Chain – X Layer (zkL2)"
+    AA["Account-Abstraction Smart Account"]
+    Paymaster["Paymaster (OKB / USDC)"]
+    Guardians["Social-Recovery Guardians"]
+    Router["OKX DEX Router"]
+    Synth["SyntheticStock Contract"]
+    Oracle["OracleAdapter"]
+    Vault["USDC Collateral Vault"]
+    Token["AAPL-x ERC-20"]
+    Verifier["ZK Solvency Verifier"]
+  end
+
+  User["User"] --> Frontend
+  Frontend -- "fetchQuote" --> DEXClient
+  DEXClient -- "REST" --> OKXAPI
+  DEXClient -- "bestRoute" --> Frontend
+  Frontend -- "batchTx: swap+mint" --> AA
+  AA --> Router
+  Router --> Vault
+  AA --> Synth
+  Synth --> Token
+  Token --> User
+  OracleSvc -- "pushPrice" --> Oracle
+  Oracle --> Synth
+  ZKProver -- "proof" --> Verifier
+  Paymaster -- "gas sponsorship" --> AA
+  Guardians -. "recover / session keys" .-> AA 

@@ -1,0 +1,41 @@
+{
+  "name": "synthetic-stock-dapp",
+  "version": "1.0.0",
+  "description": "A crypto-native dApp for trading synthetic stocks using OKX DEX API on X Layer",
+  "private": true,
+  "scripts": {
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "test": "cd contracts && npm run test",
+    "deploy:local": "cd contracts && npm run deploy:local",
+    "deploy:xlayer": "cd contracts && npm run deploy:xlayer",
+    "oracle:start": "cd oracle && npm run start",
+    "install:all": "npm install && cd contracts && npm install && cd ../frontend && npm install && cd ../oracle && npm install",
+    "clean": "rimraf node_modules */node_modules */dist */.next */build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "prettier": "^3.0.0",
+    "eslint": "^8.0.0",
+    "rimraf": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/synthetic-stock-dapp"
+  },
+  "keywords": [
+    "defi",
+    "synthetic-assets",
+    "okx-dex",
+    "x-layer",
+    "account-abstraction",
+    "hackathon"
+  ],
+  "author": "Synthetic Stock Warriors",
+  "license": "MIT"
+} 
