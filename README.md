@@ -182,7 +182,6 @@ npm run test:integration
 ## 📚 Documentation
 
 - [Software Design Document](./docs/SDD.md)
-- [Implementation Plan](./docs/IMPLEMENTATION_PLAN.md)
 - [API Documentation](./docs/API.md)
 - [Deployment Guide](./docs/DEPLOYMENT.md)
 
