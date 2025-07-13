@@ -216,9 +216,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - [OKX DEX API Documentation](https://web3.okx.com/build/dev-docs/dex-api/dex-what-is-dex-api)
 - [X Layer Network](https://web3.okx.com/xlayer)
-- [Live dApp](https://your-app-url.com)
-- [Demo Video](https://your-demo-video.com)
-
----
-
-Built with ❤️ for the OKX DEX Hackathon 
+- [Live dApp]
+- [Demo Video]
