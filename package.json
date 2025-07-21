@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A crypto-native dApp for trading synthetic stocks using OKX DEX API on X Layer",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "dev": "cd frontend && npm run dev",
     "build": "cd frontend && npm run build",

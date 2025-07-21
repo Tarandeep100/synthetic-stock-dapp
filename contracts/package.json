@@ -8,6 +8,7 @@
     "test": "hardhat test",
     "deploy:local": "hardhat run scripts/deploy.ts --network localhost",
     "deploy:xlayer": "hardhat run scripts/deploy.ts --network xlayer",
+    "deploy:xlayerTestnet": "hardhat run scripts/deploy.ts --network xlayerTestnet",
     "verify": "hardhat verify --network xlayer",
     "clean": "hardhat clean",
     "coverage": "hardhat coverage",
@@ -35,6 +36,7 @@
   "author": "Synthetic Stock Warriors",
   "license": "MIT",
   "dependencies": {
+    "@openzeppelin/hardhat-upgrades": "^3.9.1",
     "dotenv": "^17.2.0"
   }
 }

@@ -30,7 +30,7 @@ const config: HardhatUserConfig = {
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
     },
     xlayerTestnet: {
-      url: process.env.XLAYER_TESTNET_RPC_URL || "https://testrpc.xlayer.okx.com",
+      url: process.env.XLAYER_TESTNET_RPC_URL || "https://endpoints.omniatech.io/v1/xlayer/testnet/public",
       chainId: 195,
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
     },
