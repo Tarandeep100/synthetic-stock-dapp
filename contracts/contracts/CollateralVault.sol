@@ -9,8 +9,8 @@ import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 /**
  * @title CollateralVault
- * @dev Securely holds USDC collateral for the synthetic stock system
- * @notice Only authorized contracts can deposit/withdraw collateral
+ * @dev Securely holds USDC collateral for the synthetic stock system per SDD architecture
+ * @notice Only authorized contracts (SyntheticStock) can deposit/withdraw collateral
  */
 contract CollateralVault is AccessControl, Pausable, ReentrancyGuard {
     using SafeERC20 for IERC20;
@@ -21,18 +21,14 @@ contract CollateralVault is AccessControl, Pausable, ReentrancyGuard {
 
     IERC20 public immutable usdcToken;
     
-    // Collateral tracking
+    // Simplified collateral tracking per SDD requirements
     mapping(address => uint256) private _userCollateral;
     uint256 private _totalCollateral;
     
-    // Emergency withdrawal tracking
-    mapping(address => bool) private _emergencyWithdrawals;
-    uint256 public emergencyWithdrawalDelay = 24 hours;
-    
+    // Events per SDD requirements
     event CollateralDeposited(address indexed user, uint256 amount, uint256 totalCollateral);
     event CollateralWithdrawn(address indexed user, uint256 amount, uint256 totalCollateral);
-    event EmergencyWithdrawalInitiated(address indexed user, uint256 timestamp);
-    event EmergencyWithdrawalExecuted(address indexed user, uint256 amount);
+    event EmergencyWithdrawal(address indexed user, uint256 amount);
 
     constructor(address _usdcToken, address admin) {
         require(_usdcToken != address(0), "CollateralVault: USDC token cannot be zero address");
@@ -46,7 +42,7 @@ contract CollateralVault is AccessControl, Pausable, ReentrancyGuard {
     }
 
     /**
-     * @dev Deposit USDC collateral for a user
+     * @dev Deposit USDC collateral for a user per SDD architecture
      * @param user Address of the user
      * @param amount Amount of USDC to deposit (6 decimal precision)
      * @notice Only authorized contracts (SyntheticStock) can call this
@@ -70,7 +66,7 @@ contract CollateralVault is AccessControl, Pausable, ReentrancyGuard {
     }
 
     /**
-     * @dev Withdraw USDC collateral for a user
+     * @dev Withdraw USDC collateral for a user per SDD architecture
      * @param user Address of the user
      * @param amount Amount of USDC to withdraw
      * @param recipient Address to send the USDC to
@@ -97,7 +93,7 @@ contract CollateralVault is AccessControl, Pausable, ReentrancyGuard {
     }
 
     /**
-     * @dev Get user's collateral balance
+     * @dev Get user's collateral balance per SDD requirements
      * @param user Address of the user
      * @return uint256 User's collateral balance in USDC (6 decimals)
      */
@@ -106,7 +102,7 @@ contract CollateralVault is AccessControl, Pausable, ReentrancyGuard {
     }
 
     /**
-     * @dev Get total collateral in the vault
+     * @dev Get total collateral in the vault per SDD requirements
      * @return uint256 Total collateral in USDC (6 decimals)
      */
     function getTotalCollateral() external view returns (uint256) {
@@ -114,7 +110,7 @@ contract CollateralVault is AccessControl, Pausable, ReentrancyGuard {
     }
 
     /**
-     * @dev Get actual USDC balance of the vault (for verification)
+     * @dev Get actual USDC balance of the vault (for solvency verification)
      * @return uint256 Actual USDC balance
      */
     function getVaultBalance() external view returns (uint256) {
@@ -122,45 +118,30 @@ contract CollateralVault is AccessControl, Pausable, ReentrancyGuard {
     }
 
     /**
-     * @dev Check if vault has sufficient funds
-     * @return bool True if actual balance matches tracked total
+     * @dev Check if vault is solvent (actual balance >= tracked collateral)
+     * @return bool True if vault is solvent
      */
     function isVaultSolvent() external view returns (bool) {
         return usdcToken.balanceOf(address(this)) >= _totalCollateral;
     }
 
     /**
-     * @dev Initiate emergency withdrawal (for users in case of contract issues)
-     * @notice Users can initiate emergency withdrawal after delay period
+     * @dev Emergency withdrawal for users when system is paused
+     * @notice Users can withdraw their proportional share when system is paused
      */
-    function initiateEmergencyWithdrawal() external whenPaused {
-        require(_userCollateral[msg.sender] > 0, "CollateralVault: no collateral to withdraw");
-        require(!_emergencyWithdrawals[msg.sender], "CollateralVault: withdrawal already initiated");
+    function emergencyWithdraw() external whenPaused nonReentrant {
+        uint256 userBalance = _userCollateral[msg.sender];
+        require(userBalance > 0, "CollateralVault: no collateral to withdraw");
         
-        _emergencyWithdrawals[msg.sender] = true;
-        emit EmergencyWithdrawalInitiated(msg.sender, block.timestamp);
-    }
-
-    /**
-     * @dev Execute emergency withdrawal after delay period
-     * @notice Users can withdraw their collateral after emergency delay
-     */
-    function executeEmergencyWithdrawal() external nonReentrant {
-        require(_emergencyWithdrawals[msg.sender], "CollateralVault: withdrawal not initiated");
-        require(_userCollateral[msg.sender] > 0, "CollateralVault: no collateral to withdraw");
-        
-        uint256 amount = _userCollateral[msg.sender];
         _userCollateral[msg.sender] = 0;
-        _totalCollateral -= amount;
-        _emergencyWithdrawals[msg.sender] = false;
+        _totalCollateral -= userBalance;
         
-        usdcToken.safeTransfer(msg.sender, amount);
-        emit EmergencyWithdrawalExecuted(msg.sender, amount);
+        usdcToken.safeTransfer(msg.sender, userBalance);
+        emit EmergencyWithdrawal(msg.sender, userBalance);
     }
 
     /**
-     * @dev Pause the contract (emergency stop)
-     * @notice Only authorized pausers can call this
+     * @dev Pause the contract (emergency stop) per SDD security requirements
      */
     function pause() external onlyRole(PAUSER_ROLE) {
         _pause();
@@ -168,7 +149,6 @@ contract CollateralVault is AccessControl, Pausable, ReentrancyGuard {
 
     /**
      * @dev Unpause the contract
-     * @notice Only authorized pausers can call this
      */
     function unpause() external onlyRole(PAUSER_ROLE) {
         _unpause();
@@ -179,26 +159,17 @@ contract CollateralVault is AccessControl, Pausable, ReentrancyGuard {
      * @param token Address of the token to recover
      * @param amount Amount to recover
      * @param recipient Address to send recovered tokens
-     * @notice Only emergency role can call this, cannot recover USDC
+     * @notice Only emergency role can call this, cannot recover USDC collateral
      */
     function emergencyTokenRecovery(
         address token, 
         uint256 amount, 
         address recipient
     ) external onlyRole(EMERGENCY_ROLE) {
-        require(token != address(usdcToken), "CollateralVault: cannot recover USDC");
+        require(token != address(usdcToken), "CollateralVault: cannot recover USDC collateral");
         require(token != address(0), "CollateralVault: token cannot be zero address");
         require(recipient != address(0), "CollateralVault: recipient cannot be zero address");
         
         IERC20(token).safeTransfer(recipient, amount);
-    }
-
-    /**
-     * @dev Get emergency withdrawal status for a user
-     * @param user Address of the user
-     * @return bool Whether emergency withdrawal was initiated
-     */
-    function hasInitiatedEmergencyWithdrawal(address user) external view returns (bool) {
-        return _emergencyWithdrawals[user];
     }
 } 

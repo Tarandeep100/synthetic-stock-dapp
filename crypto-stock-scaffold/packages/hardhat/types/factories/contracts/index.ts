@@ -3,7 +3,11 @@
 /* eslint-disable */
 export { AAPLToken__factory } from "./AAPLToken__factory";
 export { CollateralVault__factory } from "./CollateralVault__factory";
+export { DEXRouter__factory } from "./DEXRouter__factory";
 export { MockUSDC__factory } from "./MockUSDC__factory";
 export { OracleAdapter__factory } from "./OracleAdapter__factory";
+export { Paymaster__factory } from "./Paymaster__factory";
+export { SmartAccount__factory } from "./SmartAccount__factory";
 export { SyntheticStock__factory } from "./SyntheticStock__factory";
 export { YourContract__factory } from "./YourContract__factory";
+export { ZKSolvencyVerifier__factory } from "./ZKSolvencyVerifier__factory";

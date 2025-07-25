@@ -27,6 +27,7 @@ export interface SyntheticStockInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "AAPL_DECIMALS"
+      | "AA_ROLE"
       | "COLLATERAL_RATIO"
       | "DEFAULT_ADMIN_ROLE"
       | "LIQUIDATION_PENALTY"
@@ -39,27 +40,35 @@ export interface SyntheticStockInterface extends Interface {
       | "UPGRADE_INTERFACE_VERSION"
       | "USDC_DECIMALS"
       | "aaplToken"
+      | "addAAWallet"
       | "canLiquidate"
       | "collateralVault"
-      | "getCollateralizationRatio"
       | "getRoleAdmin"
+      | "getSystemCollateralizationRatio"
+      | "getUserCollateralizationRatio"
       | "grantRole"
       | "hasRole"
       | "initialize"
+      | "isSystemSolvent"
       | "mint"
       | "mintFee"
       | "oracle"
-      | "positions"
+      | "pause"
+      | "paused"
       | "proxiableUUID"
       | "redeem"
       | "redeemFee"
+      | "removeAAWallet"
       | "renounceRole"
       | "revokeRole"
       | "supportsInterface"
+      | "unpause"
       | "updateFees"
       | "upgradeToAndCall"
       | "usdcToken"
+      | "userAaplBalance"
       | "version"
+      | "withdrawFees"
   ): FunctionFragment;
 
   getEvent(
@@ -68,10 +77,12 @@ export interface SyntheticStockInterface extends Interface {
       | "Initialized"
       | "Liquidated"
       | "Minted"
+      | "Paused"
       | "Redeemed"
       | "RoleAdminChanged"
       | "RoleGranted"
       | "RoleRevoked"
+      | "Unpaused"
       | "Upgraded"
   ): EventFragment;
 
@@ -79,6 +90,7 @@ export interface SyntheticStockInterface extends Interface {
     functionFragment: "AAPL_DECIMALS",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "AA_ROLE", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "COLLATERAL_RATIO",
     values?: undefined
@@ -122,6 +134,10 @@ export interface SyntheticStockInterface extends Interface {
   ): string;
   encodeFunctionData(functionFragment: "aaplToken", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "addAAWallet",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
     functionFragment: "canLiquidate",
     values: [AddressLike]
   ): string;
@@ -130,12 +146,16 @@ export interface SyntheticStockInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "getCollateralizationRatio",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
     functionFragment: "getRoleAdmin",
     values: [BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getSystemCollateralizationRatio",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getUserCollateralizationRatio",
+    values: [AddressLike]
   ): string;
   encodeFunctionData(
     functionFragment: "grantRole",
@@ -149,22 +169,31 @@ export interface SyntheticStockInterface extends Interface {
     functionFragment: "initialize",
     values: [AddressLike, AddressLike, AddressLike, AddressLike, AddressLike]
   ): string;
-  encodeFunctionData(functionFragment: "mint", values: [BigNumberish]): string;
+  encodeFunctionData(
+    functionFragment: "isSystemSolvent",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "mint",
+    values: [AddressLike, BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "mintFee", values?: undefined): string;
   encodeFunctionData(functionFragment: "oracle", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "positions",
-    values: [AddressLike]
-  ): string;
+  encodeFunctionData(functionFragment: "pause", values?: undefined): string;
+  encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "proxiableUUID",
     values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "redeem",
-    values: [BigNumberish]
+    values: [AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "redeemFee", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "removeAAWallet",
+    values: [AddressLike]
+  ): string;
   encodeFunctionData(
     functionFragment: "renounceRole",
     values: [BytesLike, AddressLike]
@@ -177,6 +206,7 @@ export interface SyntheticStockInterface extends Interface {
     functionFragment: "supportsInterface",
     values: [BytesLike]
   ): string;
+  encodeFunctionData(functionFragment: "unpause", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "updateFees",
     values: [BigNumberish, BigNumberish]
@@ -186,12 +216,21 @@ export interface SyntheticStockInterface extends Interface {
     values: [AddressLike, BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "usdcToken", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "userAaplBalance",
+    values: [AddressLike]
+  ): string;
   encodeFunctionData(functionFragment: "version", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "withdrawFees",
+    values: [AddressLike, BigNumberish]
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "AAPL_DECIMALS",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "AA_ROLE", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "COLLATERAL_RATIO",
     data: BytesLike
@@ -235,6 +274,10 @@ export interface SyntheticStockInterface extends Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "aaplToken", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "addAAWallet",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "canLiquidate",
     data: BytesLike
   ): Result;
@@ -243,26 +286,39 @@ export interface SyntheticStockInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getCollateralizationRatio",
+    functionFragment: "getRoleAdmin",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getRoleAdmin",
+    functionFragment: "getSystemCollateralizationRatio",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getUserCollateralizationRatio",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "isSystemSolvent",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mintFee", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "oracle", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "positions", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "proxiableUUID",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "redeem", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "redeemFee", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "removeAAWallet",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "renounceRole",
     data: BytesLike
@@ -272,13 +328,22 @@ export interface SyntheticStockInterface extends Interface {
     functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "updateFees", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "upgradeToAndCall",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "usdcToken", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "userAaplBalance",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "version", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "withdrawFees",
+    data: BytesLike
+  ): Result;
 }
 
 export namespace FeesUpdatedEvent {
@@ -340,24 +405,36 @@ export namespace LiquidatedEvent {
 export namespace MintedEvent {
   export type InputTuple = [
     user: AddressLike,
-    usdcDeposited: BigNumberish,
+    collateralUsed: BigNumberish,
     aaplMinted: BigNumberish,
-    price: BigNumberish,
+    aaplPrice: BigNumberish,
     fee: BigNumberish
   ];
   export type OutputTuple = [
     user: string,
-    usdcDeposited: bigint,
+    collateralUsed: bigint,
     aaplMinted: bigint,
-    price: bigint,
+    aaplPrice: bigint,
     fee: bigint
   ];
   export interface OutputObject {
     user: string;
-    usdcDeposited: bigint;
+    collateralUsed: bigint;
     aaplMinted: bigint;
-    price: bigint;
+    aaplPrice: bigint;
     fee: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace PausedEvent {
+  export type InputTuple = [account: AddressLike];
+  export type OutputTuple = [account: string];
+  export interface OutputObject {
+    account: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -369,22 +446,22 @@ export namespace RedeemedEvent {
   export type InputTuple = [
     user: AddressLike,
     aaplBurned: BigNumberish,
-    usdcWithdrawn: BigNumberish,
-    price: BigNumberish,
+    collateralReturned: BigNumberish,
+    aaplPrice: BigNumberish,
     fee: BigNumberish
   ];
   export type OutputTuple = [
     user: string,
     aaplBurned: bigint,
-    usdcWithdrawn: bigint,
-    price: bigint,
+    collateralReturned: bigint,
+    aaplPrice: bigint,
     fee: bigint
   ];
   export interface OutputObject {
     user: string;
     aaplBurned: bigint;
-    usdcWithdrawn: bigint;
-    price: bigint;
+    collateralReturned: bigint;
+    aaplPrice: bigint;
     fee: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
@@ -451,6 +528,18 @@ export namespace RoleRevokedEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
+export namespace UnpausedEvent {
+  export type InputTuple = [account: AddressLike];
+  export type OutputTuple = [account: string];
+  export interface OutputObject {
+    account: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
 export namespace UpgradedEvent {
   export type InputTuple = [implementation: AddressLike];
   export type OutputTuple = [implementation: string];
@@ -508,6 +597,8 @@ export interface SyntheticStock extends BaseContract {
 
   AAPL_DECIMALS: TypedContractMethod<[], [bigint], "view">;
 
+  AA_ROLE: TypedContractMethod<[], [string], "view">;
+
   COLLATERAL_RATIO: TypedContractMethod<[], [bigint], "view">;
 
   DEFAULT_ADMIN_ROLE: TypedContractMethod<[], [string], "view">;
@@ -532,17 +623,25 @@ export interface SyntheticStock extends BaseContract {
 
   aaplToken: TypedContractMethod<[], [string], "view">;
 
+  addAAWallet: TypedContractMethod<
+    [aaWallet: AddressLike],
+    [void],
+    "nonpayable"
+  >;
+
   canLiquidate: TypedContractMethod<[user: AddressLike], [boolean], "view">;
 
   collateralVault: TypedContractMethod<[], [string], "view">;
 
-  getCollateralizationRatio: TypedContractMethod<
+  getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
+
+  getSystemCollateralizationRatio: TypedContractMethod<[], [bigint], "view">;
+
+  getUserCollateralizationRatio: TypedContractMethod<
     [user: AddressLike],
     [bigint],
     "view"
   >;
-
-  getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
 
   grantRole: TypedContractMethod<
     [role: BytesLike, account: AddressLike],
@@ -568,34 +667,37 @@ export interface SyntheticStock extends BaseContract {
     "nonpayable"
   >;
 
-  mint: TypedContractMethod<[usdcAmount: BigNumberish], [bigint], "nonpayable">;
+  isSystemSolvent: TypedContractMethod<[], [boolean], "view">;
+
+  mint: TypedContractMethod<
+    [user: AddressLike, aaplAmount: BigNumberish],
+    [bigint],
+    "nonpayable"
+  >;
 
   mintFee: TypedContractMethod<[], [bigint], "view">;
 
   oracle: TypedContractMethod<[], [string], "view">;
 
-  positions: TypedContractMethod<
-    [arg0: AddressLike],
-    [
-      [bigint, bigint, bigint, bigint] & {
-        collateralAmount: bigint;
-        aaplAmount: bigint;
-        lastUpdatePrice: bigint;
-        lastUpdateTime: bigint;
-      }
-    ],
-    "view"
-  >;
+  pause: TypedContractMethod<[], [void], "nonpayable">;
+
+  paused: TypedContractMethod<[], [boolean], "view">;
 
   proxiableUUID: TypedContractMethod<[], [string], "view">;
 
   redeem: TypedContractMethod<
-    [aaplAmount: BigNumberish],
+    [user: AddressLike, aaplAmount: BigNumberish],
     [bigint],
     "nonpayable"
   >;
 
   redeemFee: TypedContractMethod<[], [bigint], "view">;
+
+  removeAAWallet: TypedContractMethod<
+    [aaWallet: AddressLike],
+    [void],
+    "nonpayable"
+  >;
 
   renounceRole: TypedContractMethod<
     [role: BytesLike, callerConfirmation: AddressLike],
@@ -615,6 +717,8 @@ export interface SyntheticStock extends BaseContract {
     "view"
   >;
 
+  unpause: TypedContractMethod<[], [void], "nonpayable">;
+
   updateFees: TypedContractMethod<
     [newMintFee: BigNumberish, newRedeemFee: BigNumberish],
     [void],
@@ -629,7 +733,15 @@ export interface SyntheticStock extends BaseContract {
 
   usdcToken: TypedContractMethod<[], [string], "view">;
 
+  userAaplBalance: TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
+
   version: TypedContractMethod<[], [string], "view">;
+
+  withdrawFees: TypedContractMethod<
+    [recipient: AddressLike, amount: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
@@ -638,6 +750,9 @@ export interface SyntheticStock extends BaseContract {
   getFunction(
     nameOrSignature: "AAPL_DECIMALS"
   ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "AA_ROLE"
+  ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "COLLATERAL_RATIO"
   ): TypedContractMethod<[], [bigint], "view">;
@@ -675,17 +790,23 @@ export interface SyntheticStock extends BaseContract {
     nameOrSignature: "aaplToken"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
+    nameOrSignature: "addAAWallet"
+  ): TypedContractMethod<[aaWallet: AddressLike], [void], "nonpayable">;
+  getFunction(
     nameOrSignature: "canLiquidate"
   ): TypedContractMethod<[user: AddressLike], [boolean], "view">;
   getFunction(
     nameOrSignature: "collateralVault"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "getCollateralizationRatio"
-  ): TypedContractMethod<[user: AddressLike], [bigint], "view">;
-  getFunction(
     nameOrSignature: "getRoleAdmin"
   ): TypedContractMethod<[role: BytesLike], [string], "view">;
+  getFunction(
+    nameOrSignature: "getSystemCollateralizationRatio"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "getUserCollateralizationRatio"
+  ): TypedContractMethod<[user: AddressLike], [bigint], "view">;
   getFunction(
     nameOrSignature: "grantRole"
   ): TypedContractMethod<
@@ -714,8 +835,15 @@ export interface SyntheticStock extends BaseContract {
     "nonpayable"
   >;
   getFunction(
+    nameOrSignature: "isSystemSolvent"
+  ): TypedContractMethod<[], [boolean], "view">;
+  getFunction(
     nameOrSignature: "mint"
-  ): TypedContractMethod<[usdcAmount: BigNumberish], [bigint], "nonpayable">;
+  ): TypedContractMethod<
+    [user: AddressLike, aaplAmount: BigNumberish],
+    [bigint],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "mintFee"
   ): TypedContractMethod<[], [bigint], "view">;
@@ -723,28 +851,27 @@ export interface SyntheticStock extends BaseContract {
     nameOrSignature: "oracle"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "positions"
-  ): TypedContractMethod<
-    [arg0: AddressLike],
-    [
-      [bigint, bigint, bigint, bigint] & {
-        collateralAmount: bigint;
-        aaplAmount: bigint;
-        lastUpdatePrice: bigint;
-        lastUpdateTime: bigint;
-      }
-    ],
-    "view"
-  >;
+    nameOrSignature: "pause"
+  ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "paused"
+  ): TypedContractMethod<[], [boolean], "view">;
   getFunction(
     nameOrSignature: "proxiableUUID"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "redeem"
-  ): TypedContractMethod<[aaplAmount: BigNumberish], [bigint], "nonpayable">;
+  ): TypedContractMethod<
+    [user: AddressLike, aaplAmount: BigNumberish],
+    [bigint],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "redeemFee"
   ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "removeAAWallet"
+  ): TypedContractMethod<[aaWallet: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "renounceRole"
   ): TypedContractMethod<
@@ -763,6 +890,9 @@ export interface SyntheticStock extends BaseContract {
     nameOrSignature: "supportsInterface"
   ): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
   getFunction(
+    nameOrSignature: "unpause"
+  ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
     nameOrSignature: "updateFees"
   ): TypedContractMethod<
     [newMintFee: BigNumberish, newRedeemFee: BigNumberish],
@@ -780,8 +910,18 @@ export interface SyntheticStock extends BaseContract {
     nameOrSignature: "usdcToken"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
+    nameOrSignature: "userAaplBalance"
+  ): TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
+  getFunction(
     nameOrSignature: "version"
   ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "withdrawFees"
+  ): TypedContractMethod<
+    [recipient: AddressLike, amount: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
 
   getEvent(
     key: "FeesUpdated"
@@ -812,6 +952,13 @@ export interface SyntheticStock extends BaseContract {
     MintedEvent.OutputObject
   >;
   getEvent(
+    key: "Paused"
+  ): TypedContractEvent<
+    PausedEvent.InputTuple,
+    PausedEvent.OutputTuple,
+    PausedEvent.OutputObject
+  >;
+  getEvent(
     key: "Redeemed"
   ): TypedContractEvent<
     RedeemedEvent.InputTuple,
@@ -838,6 +985,13 @@ export interface SyntheticStock extends BaseContract {
     RoleRevokedEvent.InputTuple,
     RoleRevokedEvent.OutputTuple,
     RoleRevokedEvent.OutputObject
+  >;
+  getEvent(
+    key: "Unpaused"
+  ): TypedContractEvent<
+    UnpausedEvent.InputTuple,
+    UnpausedEvent.OutputTuple,
+    UnpausedEvent.OutputObject
   >;
   getEvent(
     key: "Upgraded"
@@ -892,6 +1046,17 @@ export interface SyntheticStock extends BaseContract {
       MintedEvent.OutputObject
     >;
 
+    "Paused(address)": TypedContractEvent<
+      PausedEvent.InputTuple,
+      PausedEvent.OutputTuple,
+      PausedEvent.OutputObject
+    >;
+    Paused: TypedContractEvent<
+      PausedEvent.InputTuple,
+      PausedEvent.OutputTuple,
+      PausedEvent.OutputObject
+    >;
+
     "Redeemed(address,uint256,uint256,uint256,uint256)": TypedContractEvent<
       RedeemedEvent.InputTuple,
       RedeemedEvent.OutputTuple,
@@ -934,6 +1099,17 @@ export interface SyntheticStock extends BaseContract {
       RoleRevokedEvent.InputTuple,
       RoleRevokedEvent.OutputTuple,
       RoleRevokedEvent.OutputObject
+    >;
+
+    "Unpaused(address)": TypedContractEvent<
+      UnpausedEvent.InputTuple,
+      UnpausedEvent.OutputTuple,
+      UnpausedEvent.OutputObject
+    >;
+    Unpaused: TypedContractEvent<
+      UnpausedEvent.InputTuple,
+      UnpausedEvent.OutputTuple,
+      UnpausedEvent.OutputObject
     >;
 
     "Upgraded(address)": TypedContractEvent<

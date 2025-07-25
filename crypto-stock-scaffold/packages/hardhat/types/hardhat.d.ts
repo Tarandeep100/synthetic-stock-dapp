@@ -34,6 +34,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC165Upgradeable__factory>;
     getContractFactory(
+      name: "PausableUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.PausableUpgradeable__factory>;
+    getContractFactory(
       name: "ReentrancyGuardUpgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ReentrancyGuardUpgradeable__factory>;
@@ -98,6 +102,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Address__factory>;
     getContractFactory(
+      name: "ECDSA",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ECDSA__factory>;
+    getContractFactory(
       name: "ERC165",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC165__factory>;
@@ -105,6 +113,10 @@ declare module "hardhat/types/runtime" {
       name: "IERC165",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165__factory>;
+    getContractFactory(
+      name: "Math",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Math__factory>;
     getContractFactory(
       name: "Pausable",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -114,6 +126,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ReentrancyGuard__factory>;
     getContractFactory(
+      name: "Strings",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Strings__factory>;
+    getContractFactory(
       name: "AAPLToken",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.AAPLToken__factory>;
@@ -121,6 +137,10 @@ declare module "hardhat/types/runtime" {
       name: "CollateralVault",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.CollateralVault__factory>;
+    getContractFactory(
+      name: "DEXRouter",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.DEXRouter__factory>;
     getContractFactory(
       name: "MockUSDC",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -130,6 +150,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OracleAdapter__factory>;
     getContractFactory(
+      name: "Paymaster",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Paymaster__factory>;
+    getContractFactory(
+      name: "SmartAccount",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SmartAccount__factory>;
+    getContractFactory(
       name: "SyntheticStock",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SyntheticStock__factory>;
@@ -137,6 +165,10 @@ declare module "hardhat/types/runtime" {
       name: "YourContract",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.YourContract__factory>;
+    getContractFactory(
+      name: "ZKSolvencyVerifier",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ZKSolvencyVerifier__factory>;
 
     getContractAt(
       name: "AccessControlUpgradeable",
@@ -163,6 +195,11 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.ERC165Upgradeable>;
+    getContractAt(
+      name: "PausableUpgradeable",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.PausableUpgradeable>;
     getContractAt(
       name: "ReentrancyGuardUpgradeable",
       address: string | ethers.Addressable,
@@ -244,6 +281,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.Address>;
     getContractAt(
+      name: "ECDSA",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ECDSA>;
+    getContractAt(
       name: "ERC165",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -253,6 +295,11 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.IERC165>;
+    getContractAt(
+      name: "Math",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Math>;
     getContractAt(
       name: "Pausable",
       address: string | ethers.Addressable,
@@ -264,6 +311,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ReentrancyGuard>;
     getContractAt(
+      name: "Strings",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Strings>;
+    getContractAt(
       name: "AAPLToken",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -273,6 +325,11 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.CollateralVault>;
+    getContractAt(
+      name: "DEXRouter",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.DEXRouter>;
     getContractAt(
       name: "MockUSDC",
       address: string | ethers.Addressable,
@@ -284,6 +341,16 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.OracleAdapter>;
     getContractAt(
+      name: "Paymaster",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Paymaster>;
+    getContractAt(
+      name: "SmartAccount",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SmartAccount>;
+    getContractAt(
       name: "SyntheticStock",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -293,6 +360,11 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.YourContract>;
+    getContractAt(
+      name: "ZKSolvencyVerifier",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ZKSolvencyVerifier>;
 
     deployContract(
       name: "AccessControlUpgradeable",
@@ -314,6 +386,10 @@ declare module "hardhat/types/runtime" {
       name: "ERC165Upgradeable",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ERC165Upgradeable>;
+    deployContract(
+      name: "PausableUpgradeable",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.PausableUpgradeable>;
     deployContract(
       name: "ReentrancyGuardUpgradeable",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -379,6 +455,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Address>;
     deployContract(
+      name: "ECDSA",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ECDSA>;
+    deployContract(
       name: "ERC165",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ERC165>;
@@ -386,6 +466,10 @@ declare module "hardhat/types/runtime" {
       name: "IERC165",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC165>;
+    deployContract(
+      name: "Math",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Math>;
     deployContract(
       name: "Pausable",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -395,6 +479,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ReentrancyGuard>;
     deployContract(
+      name: "Strings",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Strings>;
+    deployContract(
       name: "AAPLToken",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.AAPLToken>;
@@ -402,6 +490,10 @@ declare module "hardhat/types/runtime" {
       name: "CollateralVault",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.CollateralVault>;
+    deployContract(
+      name: "DEXRouter",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.DEXRouter>;
     deployContract(
       name: "MockUSDC",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -411,6 +503,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.OracleAdapter>;
     deployContract(
+      name: "Paymaster",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Paymaster>;
+    deployContract(
+      name: "SmartAccount",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.SmartAccount>;
+    deployContract(
       name: "SyntheticStock",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.SyntheticStock>;
@@ -418,6 +518,10 @@ declare module "hardhat/types/runtime" {
       name: "YourContract",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.YourContract>;
+    deployContract(
+      name: "ZKSolvencyVerifier",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ZKSolvencyVerifier>;
 
     deployContract(
       name: "AccessControlUpgradeable",
@@ -444,6 +548,11 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ERC165Upgradeable>;
+    deployContract(
+      name: "PausableUpgradeable",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.PausableUpgradeable>;
     deployContract(
       name: "ReentrancyGuardUpgradeable",
       args: any[],
@@ -525,6 +634,11 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Address>;
     deployContract(
+      name: "ECDSA",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ECDSA>;
+    deployContract(
       name: "ERC165",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -534,6 +648,11 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC165>;
+    deployContract(
+      name: "Math",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Math>;
     deployContract(
       name: "Pausable",
       args: any[],
@@ -545,6 +664,11 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ReentrancyGuard>;
     deployContract(
+      name: "Strings",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Strings>;
+    deployContract(
       name: "AAPLToken",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -554,6 +678,11 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.CollateralVault>;
+    deployContract(
+      name: "DEXRouter",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.DEXRouter>;
     deployContract(
       name: "MockUSDC",
       args: any[],
@@ -565,6 +694,16 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.OracleAdapter>;
     deployContract(
+      name: "Paymaster",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Paymaster>;
+    deployContract(
+      name: "SmartAccount",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.SmartAccount>;
+    deployContract(
       name: "SyntheticStock",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -574,6 +713,11 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.YourContract>;
+    deployContract(
+      name: "ZKSolvencyVerifier",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ZKSolvencyVerifier>;
 
     // default types
     getContractFactory(

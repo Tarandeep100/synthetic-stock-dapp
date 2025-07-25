@@ -44,6 +44,7 @@ export interface OracleAdapterInterface extends Interface {
       | "hasRole"
       | "initialize"
       | "isPriceFresh"
+      | "paused"
       | "proxiableUUID"
       | "pushPrice"
       | "removeOperator"
@@ -59,10 +60,12 @@ export interface OracleAdapterInterface extends Interface {
       | "Initialized"
       | "OperatorAdded"
       | "OperatorRemoved"
+      | "Paused"
       | "PriceUpdated"
       | "RoleAdminChanged"
       | "RoleGranted"
       | "RoleRevoked"
+      | "Unpaused"
       | "Upgraded"
   ): EventFragment;
 
@@ -129,6 +132,7 @@ export interface OracleAdapterInterface extends Interface {
     functionFragment: "isPriceFresh",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "proxiableUUID",
     values?: undefined
@@ -213,6 +217,7 @@ export interface OracleAdapterInterface extends Interface {
     functionFragment: "isPriceFresh",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "proxiableUUID",
     data: BytesLike
@@ -269,6 +274,18 @@ export namespace OperatorRemovedEvent {
   export interface OutputObject {
     operator: string;
     admin: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace PausedEvent {
+  export type InputTuple = [account: AddressLike];
+  export type OutputTuple = [account: string];
+  export interface OutputObject {
+    account: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -352,6 +369,18 @@ export namespace RoleRevokedEvent {
     role: string;
     account: string;
     sender: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace UnpausedEvent {
+  export type InputTuple = [account: AddressLike];
+  export type OutputTuple = [account: string];
+  export interface OutputObject {
+    account: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -487,6 +516,8 @@ export interface OracleAdapter extends BaseContract {
 
   isPriceFresh: TypedContractMethod<[], [boolean], "view">;
 
+  paused: TypedContractMethod<[], [boolean], "view">;
+
   proxiableUUID: TypedContractMethod<[], [string], "view">;
 
   pushPrice: TypedContractMethod<
@@ -619,6 +650,9 @@ export interface OracleAdapter extends BaseContract {
     nameOrSignature: "isPriceFresh"
   ): TypedContractMethod<[], [boolean], "view">;
   getFunction(
+    nameOrSignature: "paused"
+  ): TypedContractMethod<[], [boolean], "view">;
+  getFunction(
     nameOrSignature: "proxiableUUID"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
@@ -677,6 +711,13 @@ export interface OracleAdapter extends BaseContract {
     OperatorRemovedEvent.OutputObject
   >;
   getEvent(
+    key: "Paused"
+  ): TypedContractEvent<
+    PausedEvent.InputTuple,
+    PausedEvent.OutputTuple,
+    PausedEvent.OutputObject
+  >;
+  getEvent(
     key: "PriceUpdated"
   ): TypedContractEvent<
     PriceUpdatedEvent.InputTuple,
@@ -703,6 +744,13 @@ export interface OracleAdapter extends BaseContract {
     RoleRevokedEvent.InputTuple,
     RoleRevokedEvent.OutputTuple,
     RoleRevokedEvent.OutputObject
+  >;
+  getEvent(
+    key: "Unpaused"
+  ): TypedContractEvent<
+    UnpausedEvent.InputTuple,
+    UnpausedEvent.OutputTuple,
+    UnpausedEvent.OutputObject
   >;
   getEvent(
     key: "Upgraded"
@@ -744,6 +792,17 @@ export interface OracleAdapter extends BaseContract {
       OperatorRemovedEvent.InputTuple,
       OperatorRemovedEvent.OutputTuple,
       OperatorRemovedEvent.OutputObject
+    >;
+
+    "Paused(address)": TypedContractEvent<
+      PausedEvent.InputTuple,
+      PausedEvent.OutputTuple,
+      PausedEvent.OutputObject
+    >;
+    Paused: TypedContractEvent<
+      PausedEvent.InputTuple,
+      PausedEvent.OutputTuple,
+      PausedEvent.OutputObject
     >;
 
     "PriceUpdated(int256,int256,uint256,address)": TypedContractEvent<
@@ -788,6 +847,17 @@ export interface OracleAdapter extends BaseContract {
       RoleRevokedEvent.InputTuple,
       RoleRevokedEvent.OutputTuple,
       RoleRevokedEvent.OutputObject
+    >;
+
+    "Unpaused(address)": TypedContractEvent<
+      UnpausedEvent.InputTuple,
+      UnpausedEvent.OutputTuple,
+      UnpausedEvent.OutputObject
+    >;
+    Unpaused: TypedContractEvent<
+      UnpausedEvent.InputTuple,
+      UnpausedEvent.OutputTuple,
+      UnpausedEvent.OutputObject
     >;
 
     "Upgraded(address)": TypedContractEvent<

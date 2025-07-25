@@ -3,7 +3,11 @@
 /* eslint-disable */
 export type { AAPLToken } from "./AAPLToken";
 export type { CollateralVault } from "./CollateralVault";
+export type { DEXRouter } from "./DEXRouter";
 export type { MockUSDC } from "./MockUSDC";
 export type { OracleAdapter } from "./OracleAdapter";
+export type { Paymaster } from "./Paymaster";
+export type { SmartAccount } from "./SmartAccount";
 export type { SyntheticStock } from "./SyntheticStock";
 export type { YourContract } from "./YourContract";
+export type { ZKSolvencyVerifier } from "./ZKSolvencyVerifier";

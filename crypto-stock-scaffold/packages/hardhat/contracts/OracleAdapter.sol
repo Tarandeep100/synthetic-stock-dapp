@@ -1,18 +1,17 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.22;
 
-import "@openzeppelin/contracts/access/AccessControl.sol";
-import "@openzeppelin/contracts/utils/Pausable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/PausableUpgradeable.sol";
 
 /**
  * @title OracleAdapter
  * @dev Manages AAPL price feeds for the synthetic stock system
  * @notice Implements UUPS upgradeable pattern for future improvements
  */
-contract OracleAdapter is Initializable, AccessControlUpgradeable, UUPSUpgradeable {
+contract OracleAdapter is Initializable, AccessControlUpgradeable, UUPSUpgradeable, PausableUpgradeable {
     bytes32 public constant OPERATOR_ROLE = keccak256("OPERATOR_ROLE");
     bytes32 public constant UPGRADER_ROLE = keccak256("UPGRADER_ROLE");
 
@@ -54,6 +53,7 @@ contract OracleAdapter is Initializable, AccessControlUpgradeable, UUPSUpgradeab
         
         __AccessControl_init();
         __UUPSUpgradeable_init();
+        __Pausable_init();
 
         _grantRole(DEFAULT_ADMIN_ROLE, admin);
         _grantRole(UPGRADER_ROLE, admin);
